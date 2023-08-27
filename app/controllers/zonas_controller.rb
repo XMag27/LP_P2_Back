@@ -13,18 +13,15 @@ class ZonasController < ApplicationController
     render json: @zona
   end
 
-  #Create a function to increase the number of delitos in one
-  def sumarDelito
+  def sumarAsesinato
+    if params[:cantidad].to_i < 0
+      render json: "No se puede sumar un numero negativo"
+      return
+    end
     @zona = Zona.find(params[:id])
+    @zona.asesinatos += params[:cantidad].to_i
     @zona.crimenes += 1
     @zona.save
-    render json: @zona
-  end
-
-  def sumarAsesinato
-    @zona = Zona.find(params[:id])
-    @zona.asesinatos += 1
-    @zona.crimenes += 1
     render json: @zona
   end
 
